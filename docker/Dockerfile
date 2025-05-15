@@ -1,18 +1,22 @@
-FROM php:8.4-cli
+FROM php:8.4-fpm
 
-# Install required packages and extensions
+# Update package list and install dependencies
 RUN apt-get update && apt-get install -y \
-    unzip \
     git \
-    curl \
-    libxml2-dev \
-    && docker-php-ext-install mbstring tokenizer xml dom ctype json
+    unzip
 
-# Optional: Install Xdebug
-# RUN pecl install xdebug && docker-php-ext-enable xdebug
+# Install PDO and other required PHP extensions
+RUN docker-php-ext-install bcmath
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+
+# Update www-data's UID and GID
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+
+# Make sure global composer bin is in the PATH
+ENV PATH="$PATH:/var/www/tools/composer/vendor/bin"
 
 # Set working directory
 WORKDIR /var/www/html
@@ -23,3 +27,6 @@ RUN composer install
 
 # Copy the rest of the application
 COPY . .
+
+RUN chown -R www-data:www-data /var/www
+USER www-data
