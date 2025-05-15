@@ -70,28 +70,25 @@ docker exec -it basket_app composer run test
 docker exec -it basket_app composer run analyze
 ```
 
-
 #### This project implements a shopping basket system for Acme Widget Co. Here's a technical overview:
 
-
 ## Architecture Overview
-The project follows clean architecture principles with separated components:
-
+- The project follows clean architecture principles with separated components:
 
 ### Domain Models
-#### Product: Readonly class with code, name, and price properties
-#### Catalogue: Repository pattern implementation for product storage
+- Product: Readonly class with code, name, and price properties
+- Catalogue: Repository pattern implementation for product storage
 
 ### Basket Implementation
-#### BasketInterface: Contract defining the required methods
-#### Basket: Core implementation tracking products and calculating prices
+- BasketInterface: Contract defining the required methods
+- Basket: Core implementation tracking products and calculating prices
 
 ### Pricing Components
-#### Delivery Cost Calculation: Strategy pattern via DeliveryCostInterface
-#### Discount Offers: Strategy pattern via OfferInterface
-#### Price Calculations: Utility methods in ProductHelper
-#### Product codes implemented as typed enums (ProductEnumCode)
+- Delivery Cost Calculation: Strategy pattern via DeliveryCostInterface
+- Discount Offers: Strategy pattern via OfferInterface
+- Price Calculations: Utility methods in ProductHelper
+- Product codes implemented as typed enums (ProductEnumCode)
 
 ### Tests
-#### Unit Tests: PHPUnit tests for all components
-#### Functional Tests: for the basket functionality
+- Unit Tests: PHPUnit tests for all components
+- Functional Tests: for the basket functionality
